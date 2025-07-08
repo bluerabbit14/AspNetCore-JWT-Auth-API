@@ -35,6 +35,9 @@ namespace Asp_.Net_Web_Api.Services
             if (user == null)
                 throw new InvalidOperationException("User does not exist");
 
+            if(user.IsActive == false)
+                throw new InvalidOperationException("User is not active");
+
             var userPassword = await _context.UserPasswords.FirstOrDefaultAsync(p => p.UserId == user.UserId);
             if (userPassword == null || string.IsNullOrEmpty(userPassword.Salt))
                 throw new InvalidOperationException("User does not exist!");

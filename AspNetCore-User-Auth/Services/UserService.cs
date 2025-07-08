@@ -123,23 +123,5 @@ namespace Asp_.Net_Web_Api.Services
 
             return user;
         }
-        public async Task<DeleteResponseDTO> DeleteUserAsync(int id)
-        {
-            var user = await _context.UserProfilies.FindAsync(id);
-            if (user == null)
-               throw new KeyNotFoundException($"User with ID {id} not found.");
-
-            var createdAt = user.CreatedAt;
-            _context.UserProfilies.Remove(user);
-            await _context.SaveChangesAsync();
-
-            var result = new DeleteResponseDTO
-            {
-                Message = $"User with ID {id} deleted successfully.",
-                CreatedAt = createdAt
-            };
-            return result;
-        }
-        
     }
 }

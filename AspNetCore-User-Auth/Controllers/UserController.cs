@@ -3,6 +3,7 @@ using Asp_.Net_Web_Api.Model.DTO;
 using Asp_.Net_Web_Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Asp_.Net_Web_Api.Controllers
 {
@@ -16,6 +17,7 @@ namespace Asp_.Net_Web_Api.Controllers
         {
             _userService = userService;
         }
+
         [HttpGet("Fetch/{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -24,7 +26,6 @@ namespace Asp_.Net_Web_Api.Controllers
                 return NotFound(new { message = $"User with ID {id} not found." });
             return Ok(user);
         }
-     
 
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> Update([FromBody] UpdateProfileByUserDTO dto, int id)
@@ -40,7 +41,6 @@ namespace Asp_.Net_Web_Api.Controllers
             });
         }
 
-
         [HttpPatch("Edit/{id}")]
         public async Task<IActionResult> Patch([FromBody] UpdateProfileByUserDTO dto, int id)
         {
@@ -53,17 +53,6 @@ namespace Asp_.Net_Web_Api.Controllers
                 message = $"User with ID {id} Updated successfully.",
                 user
             });
-        }
-       
-        
-        [HttpDelete("Delete/{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var result = await _userService.DeleteUserAsync(id);
-            if (result ==null)
-                return NotFound(new { message = $"User with ID {id} not found." });
-
-            return Ok(new { message = $"User with ID {id} deleted successfully." });
         }
     }
 }

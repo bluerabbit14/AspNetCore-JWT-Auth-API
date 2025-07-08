@@ -1,5 +1,6 @@
 ﻿using Asp_.Net_Web_Api.Interface;
 using Asp_.Net_Web_Api.Model.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Asp_.Net_Web_Api.Controllers
@@ -49,6 +50,93 @@ namespace Asp_.Net_Web_Api.Controllers
                 message = $"User with ID {id} Updated successfully.",
                 user
             });
+        }
+
+        // PATCH: api/Admin/AlterActiveStatus/{id}?status=true
+        [HttpPatch("AlterActiveStatus/{id}")]
+        public async Task<IActionResult> AlterActiveStatus(int id, [FromQuery] bool status)
+        {
+            try
+            {
+                var result = await _adminService.AlterUserActiveStatus(id, status);
+                return Ok(result);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
+
+        // DELETE: api/Admin/DeleteUserProfile/{id}
+        [HttpDelete("DeleteUserProfile/{id}")]
+        public async Task<IActionResult> DeleteUserProfile(int id)
+        {
+            try
+            {
+                var result = await _adminService.DeleteUserProfileAsync(id);
+                return Ok(result);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
+
+        // GET: api/Admin/UserProfileByEmail?email=example@email.com
+        [HttpGet("UserProfileByEmail")]
+        public async Task<IActionResult> GetUserProfileByEmail([FromQuery] string email)
+        {
+            try
+            {
+                var user = await _adminService.GetUserProfileByEmailAsync(email);
+                return Ok(user);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
+
+        // GET: api/Admin/UserProfileByPhone?phone=1234567890
+        [HttpGet("UserProfileByPhone")]
+        public async Task<IActionResult> GetUserProfileByPhone([FromQuery] string phone)
+        {
+            try
+            {
+                var user = await _adminService.GetUserProfileByPhoneAsync(phone);
+                return Ok(user);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
+
+        // GET: api/Admin/UserProfilesByGender?gender=male
+        [HttpGet("UserProfilesByGender")]
+        public async Task<IActionResult> GetUserProfilesByGender([FromQuery] string gender)
+        {
+            try
+            {
+                var users = await _adminService.GetUserProfileByGenderAsync(gender);
+                return Ok(users);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
         }
 
         // GET: api/Admin/UserProfilesByRole?role=admin&userId=1

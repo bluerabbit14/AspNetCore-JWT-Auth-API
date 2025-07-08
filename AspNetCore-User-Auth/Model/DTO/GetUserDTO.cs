@@ -5,6 +5,7 @@ namespace Asp_.Net_Web_Api.Model.DTO
 {
     public class GetUserDTO
     {
+        public int UserId { get; set; }
         public string? ImageUrl { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }

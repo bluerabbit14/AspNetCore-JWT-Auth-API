@@ -27,9 +27,13 @@ namespace Asp_.Net_Web_Api.Utility
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                       new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                       new Claim(JwtRegisteredClaimNames.PhoneNumber, user.Phone)
-                   }),
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Name ?? string.Empty),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role.ToString()),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
+                    new Claim(JwtRegisteredClaimNames.PhoneNumber, user.Phone ?? string.Empty)
+                }),
                 Expires = tokenExpiryTimeStamp,
                 Issuer = issuer,
                 Audience = audience,
