@@ -15,26 +15,6 @@ namespace Asp_.Net_Web_Api.Controllers
             _authService = authService;
         }
 
-        [HttpPost("UserRegister")]
-        public async Task<IActionResult> RegisterUserAsync(SignUpRequestDTO signUpRequestDto)
-        {
-            var response = await _authService.RegisterUserAsync(signUpRequestDto);
-            if (response == null)
-                return NotFound(response);
-            return Ok(response);
-        }
-
-
-        [HttpPost("AdminRegister")]
-        public async Task<IActionResult> RegisterAdminAsync(SignUpRequestDTO signUpRequestDto)
-        {
-            var response = await _authService.RegisterAdminAsync(signUpRequestDto);
-            if (response == null)
-                return NotFound(response);
-            return Ok(response);
-        }
-
-
         [HttpPost("Login")]
         public async Task<IActionResult> LoginUserAsync(LoginRequestDTO loginRequestDto)
         {
@@ -44,7 +24,7 @@ namespace Asp_.Net_Web_Api.Controllers
             return Ok(response);
         }
 
-        [HttpPost("UserExist")]
+        [HttpPost("Credential_Exist")]
         public async Task<IActionResult> UserExistAsync(UserExistRequestDTO credentialDto)
         {
             var response = await _authService.UserExistAsync(credentialDto);

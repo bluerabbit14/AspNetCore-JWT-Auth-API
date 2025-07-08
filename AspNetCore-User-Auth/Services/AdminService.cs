@@ -2,6 +2,8 @@
 using Asp_.Net_Web_Api.Interface;
 using Asp_.Net_Web_Api.Model.Domain;
 using Asp_.Net_Web_Api.Model.DTO;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Text.Json;
 
 namespace Asp_.Net_Web_Api.Services
@@ -12,6 +14,44 @@ namespace Asp_.Net_Web_Api.Services
         public AdminService(UserDbContext context)
         {
             _context = context;
+        }
+        public async Task<List<UserProfile>> GetAllUserProfilesAsync()
+        {
+            var profiles = await _context.UserProfilies.ToListAsync();
+            if(profiles==null)
+                throw new KeyNotFoundException($"No Data found");
+            return profiles;
+        }
+        public async Task<List<UserProfile>> GetUserProfileByRoleAsync(string role, int? userId = null)
+        {
+            if (string.IsNullOrWhiteSpace(role))
+                return new List<UserProfile>();
+
+            var roleLower = role.ToLower();
+
+            if (userId.HasValue)
+            {
+                // If id is passed, return the user with that id and role
+                var userProfile = await _context.UserProfilies
+                    .Where(u => u.UserId == userId.Value && (u.Role != null && u.Role.ToLower() == roleLower))
+                    .ToListAsync();
+                return userProfile;
+            }
+            else
+            {
+                // If id is not passed, return all users with the given role
+                var profiles = await _context.UserProfilies
+                    .Where(u => u.Role != null && u.Role.ToLower() == roleLower)
+                    .ToListAsync();
+                return profiles;
+            }
+        }
+        public async Task<UserProfile> GetUserProfileAsync(int id)
+        {
+            var user = await _context.UserProfilies.FindAsync(id);
+            if (user == null)
+                throw new KeyNotFoundException($"User with ID {id} not found.");
+            return user;
         }
         public async Task<UserProfile> UpdateUserProfileByAdminAsync(int id, UpdateProfileByAdminDTO userProfileDto)
         {

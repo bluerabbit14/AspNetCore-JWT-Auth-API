@@ -1,12 +1,14 @@
 ﻿using Asp_.Net_Web_Api.Interface;
 using Asp_.Net_Web_Api.Model.DTO;
 using Asp_.Net_Web_Api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Asp_.Net_Web_Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -14,8 +16,7 @@ namespace Asp_.Net_Web_Api.Controllers
         {
             _userService = userService;
         }
-       
-        [HttpGet("FetchUser/{id}")]
+        [HttpGet("Fetch/{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var user = await _userService.GetUserProfileAsync(id);
@@ -25,7 +26,7 @@ namespace Asp_.Net_Web_Api.Controllers
         }
      
 
-        [HttpPut("UpdateProfile/{id}")]
+        [HttpPut("Update/{id}")]
         public async Task<IActionResult> Update([FromBody] UpdateProfileByUserDTO dto, int id)
         {
             var user = await _userService.UpdateUserProfileAsync(id, dto);
@@ -40,7 +41,7 @@ namespace Asp_.Net_Web_Api.Controllers
         }
 
 
-        [HttpPatch("PatchProfile/{id}")]
+        [HttpPatch("Edit/{id}")]
         public async Task<IActionResult> Patch([FromBody] UpdateProfileByUserDTO dto, int id)
         {
             var user = await _userService.PatchUserProfileAsync(id, dto);
@@ -55,7 +56,7 @@ namespace Asp_.Net_Web_Api.Controllers
         }
        
         
-        [HttpDelete("DeleteUser/{id}")]
+        [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _userService.DeleteUserAsync(id);

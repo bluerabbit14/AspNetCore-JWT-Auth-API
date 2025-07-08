@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Reflection.Emit;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Asp_.Net_Web_Api.Data
 {
@@ -14,6 +16,7 @@ namespace Asp_.Net_Web_Api.Data
         //each represent a table in database...
         public DbSet<UserProfile> UserProfilies { get; set; } = null!;
         public DbSet<UserPassword> UserPasswords { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
