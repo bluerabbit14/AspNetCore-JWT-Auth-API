@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Asp_.Net_Web_Api.Migrations
 {
     /// <inheritdoc />
-    public partial class Mig : Migration
+    public partial class OramaMig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

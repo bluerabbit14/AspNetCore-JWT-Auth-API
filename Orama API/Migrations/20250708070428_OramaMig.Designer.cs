@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Asp_.Net_Web_Api.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20250707132133_Mig")]
-    partial class Mig
+    [Migration("20250708070428_OramaMig")]
+    partial class OramaMig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

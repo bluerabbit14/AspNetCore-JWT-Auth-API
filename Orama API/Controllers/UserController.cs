@@ -1,5 +1,6 @@
 ﻿using Asp_.Net_Web_Api.Interface;
 using Asp_.Net_Web_Api.Model.DTO;
+using Asp_.Net_Web_Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Asp_.Net_Web_Api.Controllers
@@ -13,6 +14,7 @@ namespace Asp_.Net_Web_Api.Controllers
         {
             _userService = userService;
         }
+       
         [HttpGet("FetchUser/{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -21,6 +23,8 @@ namespace Asp_.Net_Web_Api.Controllers
                 return NotFound(new { message = $"User with ID {id} not found." });
             return Ok(user);
         }
+     
+
         [HttpPut("UpdateProfile/{id}")]
         public async Task<IActionResult> Update([FromBody] UpdateProfileByUserDTO dto, int id)
         {
@@ -34,6 +38,23 @@ namespace Asp_.Net_Web_Api.Controllers
                 user
             });
         }
+
+
+        [HttpPatch("PatchProfile/{id}")]
+        public async Task<IActionResult> Patch([FromBody] UpdateProfileByUserDTO dto, int id)
+        {
+            var user = await _userService.PatchUserProfileAsync(id, dto);
+            if (user == null)
+                return NotFound(new { message = $"User with ID {id} not found." });
+
+            return Ok(new
+            {
+                message = $"User with ID {id} Updated successfully.",
+                user
+            });
+        }
+       
+        
         [HttpDelete("DeleteUser/{id}")]
         public async Task<IActionResult> Delete(int id)
         {

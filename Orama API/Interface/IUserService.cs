@@ -7,6 +7,8 @@ namespace Asp_.Net_Web_Api.Interface
     {
         Task<GetUserDTO> GetUserProfileAsync(int id); 
         Task<UpdateProfileByUserDTO> UpdateUserProfileAsync(int id, UpdateProfileByUserDTO userProfileDto);
+        Task<UserProfile> PatchUserProfileAsync(int id, UpdateProfileByUserDTO userProfileDto);
+
         Task<DeleteResponseDTO> DeleteUserAsync(int id); 
     }
 }
