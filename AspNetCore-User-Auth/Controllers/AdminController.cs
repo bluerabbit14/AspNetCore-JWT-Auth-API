@@ -36,6 +36,12 @@ namespace Asp_.Net_Web_Api.Controllers
         [HttpGet("UserProfile/{id}")]
         public async Task<IActionResult> GetUserProfile(int id)
         {
+            var roleFromToken = User.FindFirstValue(ClaimTypes.Role) ?? User.FindFirstValue("role");
+            if (string.IsNullOrEmpty(roleFromToken) || roleFromToken != "admin")
+            {
+                return Forbid("Access denied: your role is not authorized to access this resource.");
+            }
+
             try
             {
                 var user = await _adminService.GetUserProfileAsync(id);
@@ -50,6 +56,13 @@ namespace Asp_.Net_Web_Api.Controllers
         [HttpPatch("Edit/{id}")]
         public async Task<IActionResult> Update([FromBody] UpdateProfileByAdminDTO dto, int id)
         {
+            var roleFromToken = User.FindFirstValue(ClaimTypes.Role) ?? User.FindFirstValue("role");
+            if (string.IsNullOrEmpty(roleFromToken) || roleFromToken != "admin")
+            {
+                return Forbid("Access denied: your role is not authorized to access this resource.");
+            }
+
+
             var user = await _adminService.UpdateUserProfileByAdminAsync(id, dto);
             if (user == null)
                 return NotFound(new { message = $"User with ID {id} not found." });
@@ -65,6 +78,12 @@ namespace Asp_.Net_Web_Api.Controllers
         [HttpPatch("AlterActiveStatus/{id}")]
         public async Task<IActionResult> AlterActiveStatus(int id, [FromQuery] bool status)
         {
+            var roleFromToken = User.FindFirstValue(ClaimTypes.Role) ?? User.FindFirstValue("role");
+            if (string.IsNullOrEmpty(roleFromToken) || roleFromToken != "admin")
+            {
+                return Forbid("Access denied: your role is not authorized to access this resource.");
+            }
+
             try
             {
                 var result = await _adminService.AlterUserActiveStatus(id, status);
@@ -80,6 +99,12 @@ namespace Asp_.Net_Web_Api.Controllers
         [HttpDelete("DeleteUserProfile/{id}")]
         public async Task<IActionResult> DeleteUserProfile(int id)
         {
+            var roleFromToken = User.FindFirstValue(ClaimTypes.Role) ?? User.FindFirstValue("role");
+            if (string.IsNullOrEmpty(roleFromToken) || roleFromToken != "admin")
+            {
+                return Forbid("Access denied: your role is not authorized to access this resource.");
+            }
+
             try
             {
                 var result = await _adminService.DeleteUserProfileAsync(id);
@@ -95,6 +120,12 @@ namespace Asp_.Net_Web_Api.Controllers
         [HttpGet("UserProfileByEmail")]
         public async Task<IActionResult> GetUserProfileByEmail([FromQuery] string email)
         {
+            var roleFromToken = User.FindFirstValue(ClaimTypes.Role) ?? User.FindFirstValue("role");
+            if (string.IsNullOrEmpty(roleFromToken) || roleFromToken != "admin")
+            {
+                return Forbid("Access denied: your role is not authorized to access this resource.");
+            }
+
             try
             {
                 var user = await _adminService.GetUserProfileByEmailAsync(email);
@@ -114,6 +145,12 @@ namespace Asp_.Net_Web_Api.Controllers
         [HttpGet("UserProfileByPhone")]
         public async Task<IActionResult> GetUserProfileByPhone([FromQuery] string phone)
         {
+            var roleFromToken = User.FindFirstValue(ClaimTypes.Role) ?? User.FindFirstValue("role");
+            if (string.IsNullOrEmpty(roleFromToken) || roleFromToken != "admin")
+            {
+                return Forbid("Access denied: your role is not authorized to access this resource.");
+            }
+
             try
             {
                 var user = await _adminService.GetUserProfileByPhoneAsync(phone);
@@ -133,6 +170,12 @@ namespace Asp_.Net_Web_Api.Controllers
         [HttpGet("UserProfilesByGender")]
         public async Task<IActionResult> GetUserProfilesByGender([FromQuery] string gender)
         {
+            var roleFromToken = User.FindFirstValue(ClaimTypes.Role) ?? User.FindFirstValue("role");
+            if (string.IsNullOrEmpty(roleFromToken) || roleFromToken != "admin")
+            {
+                return Forbid("Access denied: your role is not authorized to access this resource.");
+            }
+
             try
             {
                 var users = await _adminService.GetUserProfileByGenderAsync(gender);
@@ -152,6 +195,12 @@ namespace Asp_.Net_Web_Api.Controllers
         [HttpGet("UserProfilesByRole")]
         public async Task<IActionResult> GetUserProfilesByRole([FromQuery] string role, [FromQuery] int? userId)
         {
+            var roleFromToken = User.FindFirstValue(ClaimTypes.Role) ?? User.FindFirstValue("role");
+            if (string.IsNullOrEmpty(roleFromToken) || roleFromToken != "admin")
+            {
+                return Forbid("Access denied: your role is not authorized to access this resource.");
+            }
+
             try
             {
                 var profiles = await _adminService.GetUserProfileByRoleAsync(role, userId);
