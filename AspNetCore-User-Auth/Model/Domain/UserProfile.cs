@@ -15,7 +15,7 @@ namespace Asp_.Net_Web_Api.Model.Domain
         public string? Pincode { get; set; }
         public string? DateOfBirth { get; set; }
         public string? Gender { get; set; }
-        public string? Role { get; set; }
+        public string Role { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdated { get; set; }
         public string? LanguagePreference { get; set; }

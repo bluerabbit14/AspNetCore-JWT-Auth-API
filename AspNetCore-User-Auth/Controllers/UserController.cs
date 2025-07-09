@@ -21,6 +21,11 @@ namespace Asp_.Net_Web_Api.Controllers
         [HttpGet("Fetch/{id}")]
         public async Task<IActionResult> Get(int id)
         {
+            var userIdFromToken = User.FindFirstValue("UserId");
+            if (!int.TryParse(userIdFromToken, out int usedId) || usedId != id )
+            {
+                return Unauthorized(); // Or return Unauthorized()
+            }
             var user = await _userService.GetUserProfileAsync(id);
             if (user == null)
                 return NotFound(new { message = $"User with ID {id} not found." });

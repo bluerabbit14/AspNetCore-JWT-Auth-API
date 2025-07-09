@@ -7,6 +7,7 @@ namespace Asp_.Net_Web_Api.Model.DTO
     {
          [Required]public string Message { get; set; }
          [Required]public int UserId { get; set; }
+         [Required] public string Role { get; set; }
          [Required] public string Token { get; set; }
          [Required] public DateTime TokenValidity { get; set; }
     }

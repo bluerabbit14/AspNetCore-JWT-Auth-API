@@ -7,6 +7,7 @@ namespace Asp_.Net_Web_Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;

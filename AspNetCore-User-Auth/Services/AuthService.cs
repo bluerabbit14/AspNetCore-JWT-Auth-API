@@ -57,6 +57,7 @@ namespace Asp_.Net_Web_Api.Services
             {
                 Message = "User Logged in successfully",
                 UserId = user.UserId,
+                Role = user.Role,
                 Token = token,
                 TokenValidity = (DateTime)tokenExpiry
             };

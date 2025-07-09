@@ -28,9 +28,9 @@ namespace Asp_.Net_Web_Api.Utility
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, user.Name ?? string.Empty),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-                    new Claim(ClaimTypes.Role, user.Role.ToString()),
+                    new Claim("UserId", user.UserId.ToString()), // Custom claim for userId
+                    new Claim(ClaimTypes.Role, user.Role),
+                    new Claim(ClaimTypes.Gender, user.Gender),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
                     new Claim(JwtRegisteredClaimNames.PhoneNumber, user.Phone ?? string.Empty)
                 }),
@@ -39,7 +39,6 @@ namespace Asp_.Net_Web_Api.Utility
                 Audience = audience,
                 SigningCredentials = creds, 
             };
-
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescription);
             return tokenHandler.WriteToken(token);

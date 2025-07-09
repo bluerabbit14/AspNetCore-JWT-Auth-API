@@ -2,6 +2,7 @@
 using Asp_.Net_Web_Api.Interface;
 using Asp_.Net_Web_Api.Model.Domain;
 using Asp_.Net_Web_Api.Model.DTO;
+using System.Security.Claims;
 using System.Text.Json;
 
 namespace Asp_.Net_Web_Api.Services
@@ -15,12 +16,14 @@ namespace Asp_.Net_Web_Api.Services
         }
         public async Task<GetUserDTO> GetUserProfileAsync(int id)
         {
+
             var user = await _context.UserProfilies.FindAsync(id);
             if (user == null)
              throw new KeyNotFoundException($"User with ID {id} not found.");
 
             var result = new GetUserDTO
             {
+                UserId = user.UserId,
                 ImageUrl = user.ImageUrl,
                 Name = user.Name,
                 Email = user.Email,
