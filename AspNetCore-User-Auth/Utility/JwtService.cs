@@ -29,7 +29,7 @@ namespace Asp_.Net_Web_Api.Utility
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, user.Name ?? string.Empty),
                     new Claim("UserId", user.UserId.ToString()), // Custom claim for userId
-                    new Claim(ClaimTypes.Role, user.Role),
+                    new Claim(ClaimTypes.Role, user.Role.Trim().ToLower() == "user" ? "User" : user.Role),
                     new Claim(ClaimTypes.Gender, user.Gender),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
                     new Claim(JwtRegisteredClaimNames.PhoneNumber, user.Phone ?? string.Empty)

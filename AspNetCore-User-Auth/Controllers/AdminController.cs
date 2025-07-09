@@ -2,12 +2,14 @@
 using Asp_.Net_Web_Api.Model.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Asp_.Net_Web_Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
+    //I have modify it to display dynamic error msg. u can also change it to [authorize(Roles="admin")] but it wont display dynamic error msg
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;
@@ -20,6 +22,12 @@ namespace Asp_.Net_Web_Api.Controllers
         [HttpGet("AllUserProfiles")]
         public async Task<IActionResult> GetAllUserProfiles()
         {
+            var roleFromToken = User.FindFirstValue(ClaimTypes.Role) ?? User.FindFirstValue("role");
+            if (string.IsNullOrEmpty(roleFromToken) || roleFromToken != "admin")
+            {
+                return Forbid("Access denied: your role is not authorized to access this resource.");
+            }
+
             var profiles = await _adminService.GetAllUserProfilesAsync();
             return Ok(profiles);
         }
